@@ -22,7 +22,7 @@ open class ResultSearchModel<T>(
     }
 
     inline fun <reified R : ResultSearchModel<T>> map(): R {
-        return R::class.constructors.first().call(records, total)
+        return R::class.constructors.first().call(records, total) // It need kotlin-reflect dependency
     }
 
     open fun getPage(page: Int = 1, limit: Int = 50, start: Int = 0): ResultSearchModel<T> {
