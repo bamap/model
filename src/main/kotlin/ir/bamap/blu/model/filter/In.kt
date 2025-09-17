@@ -1,7 +1,6 @@
 package ir.bamap.blu.model.filter
 
 import ir.bamap.blu.model.util.FilterUtil
-import ir.bamap.blu.model.util.Util
 
 open class In(
     propertyName: String = "",
@@ -52,7 +51,7 @@ open class In(
                 FilterUtil.getValueSqlClause(it)
         }
 
-        val parameters = values.filterNotNull().associateBy { "in_${Util.nextString(4)}" }
+        val parameters = values.filterNotNull().associateBy { "in_${FilterUtil.randomString(4)}" }
 
         val inKeys: MutableList<String?> = parameters.keys.map { ":$it" }.toMutableList()
         if (values.contains(null))

@@ -1,7 +1,6 @@
 package ir.bamap.blu.model.filter
 
 import ir.bamap.blu.model.util.FilterUtil
-import ir.bamap.blu.model.util.Util
 
 open class NotBetween(
     propertyName: String = "",
@@ -19,7 +18,7 @@ open class NotBetween(
     override fun clone(): NotBetween = NotBetween(propertyName, lowerBoundary, upperBoundary)
 
     override fun getNamedParameterSql(): NamedParameterSql {
-        val randomStr = Util.nextString(4)
+        val randomStr = FilterUtil.randomString(4)
         val lowerParameterName = propertyName + "_lower_" + randomStr
         val upperParameterName = propertyName + "_upper_" + randomStr
         return NamedParameterSql(

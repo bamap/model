@@ -8,6 +8,15 @@ import java.util.*
 
 class FilterUtil {
     companion object {
+        const val CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+
+        @JvmStatic
+        fun randomString(length: Int): String {
+            return List(length) {
+                CHARACTERS.random()
+            }.joinToString("")
+        }
+
         @JvmStatic
         fun getValueSqlClause(value: Any): String {
             if (literalIsField(value))
@@ -20,29 +29,10 @@ class FilterUtil {
         }
 
         @JvmStatic
-        fun getValidLiteralType(literal: String): Any {
-
-            val boolean = toBooleanOrNull(literal)
-            if (boolean != null)
-                return boolean
-
-            val number = Util.toNumberOrNull(literal)
-            if (number != null)
-                return number
-
-            return literal
-        }
-
-        @JvmStatic
         fun flat(filters: MutableCollection<FilterModel>) : Collection<FilterModel> {
             filters.removeIf { removeEmptyHierarchy(it) }
 
             return filters
-        }
-
-        @JvmStatic
-        fun removeSpaceFromField(field: String): String {
-            return field.replace(" ", "")
         }
 
         private fun getField(literal: Any): String {
@@ -59,56 +49,6 @@ class FilterUtil {
 
             val regex = "\\{\\{.*\\}\\}".toRegex()
             return literal.matches(regex)
-        }
-
-        private fun getBigParenthesesSegment(queryString: String): String? {
-            var count = 0
-            var startIndex = -1
-            var endIndex = -1
-
-            for (i in queryString.indices) {
-                val char = queryString[i]
-                if (char == '(') {
-                    if (count == 0) {
-                        startIndex = i
-                    }
-                    count++
-                    continue
-                }
-
-                if (char == ')') {
-                    count--
-                    if (count == 0) {
-                        endIndex = i
-                        break
-                    }
-                }
-            }
-
-            if (startIndex > endIndex)
-                throw InvalidParameterException("query string[$queryString] is wrong")
-
-            if (startIndex == endIndex)
-                return null
-
-            return queryString.substring(startIndex, endIndex + 1)
-        }
-
-        /**
-         * @return get Boolean value type if [value] is similar to TRUE, True and etc.
-         */
-        private fun toBooleanOrNull(value: Any?): Boolean? {
-            if (value == null)
-                return null
-
-            if (value is Boolean)
-                return value
-
-            return when (value.toString().lowercase(Locale.getDefault())) {
-                "true" -> true
-                "false" -> false
-                else -> null
-            }
         }
 
         private fun removeEmptyHierarchy(filter: FilterModel): Boolean {
