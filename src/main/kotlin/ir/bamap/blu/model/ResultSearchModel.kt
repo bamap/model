@@ -1,6 +1,5 @@
 package ir.bamap.blu.model
 
-import kotlin.math.max
 import kotlin.math.min
 
 open class ResultSearchModel<T>(
@@ -8,40 +7,43 @@ open class ResultSearchModel<T>(
     open val total: Long = records.size.toLong()
 ) {
 
-    @Deprecated("Use mapRecords instead", replaceWith = ReplaceWith("mapRecords(transform)"))
-    fun <R> map(transform: (T) -> R): ResultSearchModel<R> {
-        val mappedResults = records.map(transform)
-
-        return ResultSearchModel(mappedResults, total)
-    }
-
     fun <R> mapRecords(transform: (T) -> R): ResultSearchModel<R> {
         val mappedResults = records.map(transform)
 
         return ResultSearchModel(mappedResults, total)
     }
 
+    /**
+     * Maps the current ResultSearchModel to a target type R which must extend ResultSearchModel<T>.
+     * 
+     * The target class R must have a primary constructor with exactly two parameters in the following order:
+     * 1. records: List<T> (with default value if needed)
+     * 2. total: Long (with default value if needed)
+     * 
+     * This method uses reflection to instantiate the target type, which requires the kotlin-reflect dependency.
+     * 
+     * @return A new instance of type R containing the same records and total count
+     * @throws IllegalArgumentException if the target class doesn't have a compatible constructor
+     */
     inline fun <reified R : ResultSearchModel<T>> map(): R {
         return R::class.constructors.first().call(records, total) // It need kotlin-reflect dependency
     }
 
-    open fun getPage(page: Int = 1, limit: Int = 50, start: Int = 0): ResultSearchModel<T> {
+    /**
+     * Page start from 0 like Spring Data JPA
+     */
+    open fun getPage(page: Int = 0, limit: Int = 50, start: Int = 0): ResultSearchModel<T> {
 
-        val pageRecords = mutableListOf<T>()
-        val result = ResultSearchModel(pageRecords, this.total)
+        if (limit <= 0)
+            return this.mapRecords { it }
 
-        val startIndex = max(start, start + (page - 1) * limit)
+        val startIndex = start + page * limit
         if (startIndex > records.size)
-            return result
+            return ResultSearchModel(emptyList(), total)
 
-        val lastIndex = if (limit <= 0)
-            records.size
-        else
-            min(records.size, start + page * limit)
+        val lastIndex = min(records.size, start + (page + 1) * limit)
 
-        pageRecords.addAll(records.subList(startIndex, lastIndex))
-
-        return result
+        return ResultSearchModel(records.subList(startIndex, lastIndex), this.total)
     }
 
     open fun getPage(page: PageSearchModel): ResultSearchModel<T> = getPage(page.page, page.limit)
