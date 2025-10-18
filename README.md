@@ -16,6 +16,6 @@ Add the dependency to your project:
 <dependency>
     <groupId>ir.bamap.blu</groupId>
     <artifactId>model</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
 </dependency>
 ```
