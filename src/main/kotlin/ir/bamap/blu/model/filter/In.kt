@@ -4,17 +4,17 @@ import ir.bamap.blu.model.util.FilterUtil
 
 open class In(
     propertyName: String = "",
-    val literal: List<Any?> = emptyList()
+    val literal: Collection<Any?> = emptyList()
 ) : OperatorFilter(propertyName) {
 
     override fun toString(): String {
 
-        val values = literal.map {
+        val values = literal.joinToString(",") {
             if (it == null)
-                null
+                "null"
             else
                 FilterUtil.getValueSqlClause(it)
-        }.joinToString(",")
+        }
         return "\"$propertyName\" IN($values)"
     }
 
