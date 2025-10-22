@@ -4,25 +4,25 @@ import ir.bamap.blu.model.util.FilterUtil
 
 open class NotIn(
     propertyName: String = "",
-    literal: List<Any?> = emptyList()
-) : ir.bamap.blu.model.filter.In(propertyName, literal) {
+    literal: Collection<Any?> = emptyList()
+) : In(propertyName, literal) {
 
     override fun toString(): String {
 
-        val values = literal.map {
+        val values = literal.joinToString(",") {
             if (it == null)
-                null
+                "null"
             else
                 FilterUtil.getValueSqlClause(it)
-        }.joinToString(",")
+        }
         return "\"$propertyName\" NOT IN($values)"
     }
 
-    override fun clone(): ir.bamap.blu.model.filter.NotIn = ir.bamap.blu.model.filter.NotIn(propertyName, literal)
+    override fun clone(): NotIn = NotIn(propertyName, literal)
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is ir.bamap.blu.model.filter.NotIn) return false
+        if (other !is NotIn) return false
         if (!super.equals(other)) return false
 
         if (literal != other.literal) return false
@@ -36,7 +36,7 @@ open class NotIn(
         return result
     }
 
-    override fun getNamedParameterSql(): ir.bamap.blu.model.filter.NamedParameterSql {
+    override fun getNamedParameterSql(): NamedParameterSql {
         return getNamedParameterByOperator("NOT IN")
     }
 }
