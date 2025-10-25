@@ -2,7 +2,8 @@ package ir.bamap.blu.model
 
 open class OrderModel(
     val propertyName: String = "",
-    val direction: Direction = Direction.ASC
+    val direction: Direction = Direction.ASC,
+    val cases: List<Any?> = emptyList(),
 ) {
 
     enum class Direction {
