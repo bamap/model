@@ -5,7 +5,7 @@
 
     <groupId>ir.bamap.blu</groupId>
     <artifactId>model</artifactId>
-    <version>1.1.4</version>
+    <version>1.1.5</version>
 
     <packaging>jar</packaging>
 
@@ -49,13 +49,15 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <jackson.version>2.19.2</jackson.version>
+
+        <exception.version>1.0.3</exception.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>ir.bamap.blu</groupId>
             <artifactId>exception</artifactId>
-            <version>1.0.1</version>
+            <version>${exception.version}</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

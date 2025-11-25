@@ -1,6 +1,6 @@
 package ir.bamap.blu.model.filter
 
-import ir.bamap.blu.exception.NotSupportedException
+import ir.bamap.blu.exception.NotSupportedTypeException
 import ir.bamap.blu.model.util.FilterUtil
 
 
@@ -36,7 +36,7 @@ open class Filters() : ArrayList<FilterModel>(), Cloneable {
             val childProperties = when (filter) {
                 is GroupFilter -> filter.filters.getPropertyNames()
                 is OperatorFilter -> mutableSetOf(filter.propertyName)
-                else -> throw NotSupportedException(filter::class.java, "LIB-MODEL_FILTERS_GET_PROPERTY_NAME")
+                else -> throw NotSupportedTypeException(filter::class.java, "LIB-MODEL_FILTERS_GET_PROPERTY_NAME")
             }
 
             properties.addAll(childProperties)
@@ -48,7 +48,7 @@ open class Filters() : ArrayList<FilterModel>(), Cloneable {
         val filter = when (joinType) {
             And::class.java -> And()
             Or::class.java -> Or()
-            else -> throw NotSupportedException(joinType, "LIB-MODEL_FILTERS_GET_NAMED_PARAMETER_SQL")
+            else -> throw NotSupportedTypeException(joinType, "LIB-MODEL_FILTERS_GET_NAMED_PARAMETER_SQL")
         }
         filter.filters.addAll(this)
 
