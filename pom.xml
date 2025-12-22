@@ -5,7 +5,7 @@
 
     <groupId>ir.bamap.blu</groupId>
     <artifactId>model</artifactId>
-    <version>4.0.0</version>
+    <version>4.0.1</version>
 
     <packaging>jar</packaging>
 
@@ -48,9 +48,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <jackson-annotations.version>2.20</jackson-annotations.version>
+        <spring-boot.version>4.0.1</spring-boot.version>
 
-        <exception.version>1.0.3</exception.version>
+        <exception.version>1.0.4</exception.version>
     </properties>
 
     <dependencies>
@@ -62,7 +62,6 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
-            <version>${jackson-annotations.version}</version>
         </dependency>
 
         <dependency>
@@ -72,6 +71,17 @@
         </dependency>
     </dependencies>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version> <!-- single place -->
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
         <plugins>
