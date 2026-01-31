@@ -5,7 +5,7 @@
 
     <groupId>ir.bamap.blu</groupId>
     <artifactId>model</artifactId>
-    <version>4.0.1</version>
+    <version>5.0.0</version>
 
     <packaging>jar</packaging>
 
@@ -48,20 +48,25 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <spring-boot.version>4.0.1</spring-boot.version>
-
         <exception.version>1.0.4</exception.version>
+        <jackson-annotation.version>2.20</jackson-annotation.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>ir.bamap.blu</groupId>
             <artifactId>exception</artifactId>
+            <scope>provided</scope>
+            <optional>true</optional>
             <version>${exception.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
+            <version>${jackson-annotation.version}</version>
+            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -71,17 +76,6 @@
         </dependency>
     </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version> <!-- single place -->
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
     <build>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
         <plugins>
