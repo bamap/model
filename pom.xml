@@ -5,7 +5,7 @@
 
     <groupId>ir.bamap.blu</groupId>
     <artifactId>model</artifactId>
-    <version>5.0.2</version>
+    <version>5.0.3</version>
 
     <packaging>jar</packaging>
 
@@ -49,7 +49,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <exception.version>1.0.6</exception.version>
-        <jackson-annotation.version>2.20</jackson-annotation.version>
+        <jackson-annotation.version>2.21</jackson-annotation.version>
     </properties>
 
     <dependencies>
